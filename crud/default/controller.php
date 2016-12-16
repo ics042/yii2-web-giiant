@@ -28,8 +28,8 @@ namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>
 
 use Yii;
 use <?= ltrim($generator->modelClass, '\\') ?>;
-<?php if (isset($searchModelClass)): ?>
-use <?= ltrim($generator->searchModelClass, '\\') ?><?php if (isset($searchModelAlias)):?> as <?= $searchModelAlias ?><?php endif ?>;
+<?php if (!empty($searchModelClass)): ?>
+<?= "use ".ltrim($generator->searchModelClass, '\\') ?><?php if (isset($searchModelAlias)):?> as <?= $searchModelAlias ?><?php endif ?>;
 <?php endif ?>
 use <?= ltrim($generator->baseControllerClass, '\\') ?>;
 use yii\web\HttpException;
@@ -46,10 +46,10 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
      */
     public function actionIndex()
     {
-        <?php if (isset($searchModelClass)): ?>
-            $searchModel  = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>;
+        <?php if (!empty($searchModelClass)): ?>
+        $searchModel  = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>;
         <?php else: ?>
-            $searchModel  = new <?= $modelClass ?>;
+        $searchModel  = new <?= $modelClass ?>;
         <?php endif ?>
         $dataProvider = $searchModel->search();
 
